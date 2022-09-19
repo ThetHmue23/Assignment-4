@@ -1,0 +1,141 @@
+//မပြီးသေးပဲ assignment တင်တဲ့အတွက် sorry sayar တော်တော်တိုင်ပတ်နေလို့
+// Created by Lenovo on 9/18/2022.
+//
+
+#include <iostream>
+
+#define SIZE 10
+struct Acc{
+    char *userName[SIZE];
+    char *location[SIZE];
+    int *id[SIZE];
+    int *password[SIZE];
+    int *amount[SIZE];
+    int *age[SIZE];
+
+};
+void insertAcc (FILE *FAD,Acc *accD);
+void findAcc(FILE *FAD,Acc *AccData);
+int main (){
+    int num=0;
+    Acc *AccData;
+    AccData=(Acc*) malloc(sizeof (Acc));
+    FILE *fPtr;
+    fPtr = fopen("acc.txt","a");
+    printf("Press 1 to insert data; Press 2 to find data; Press 3 to update data:");
+    scanf("%d",&num);
+    if(num==1) {
+        insertAcc(fPtr,AccData);
+    }else if(num == 2){
+        findAcc(fPtr,AccData);
+    }
+    fclose(fPtr);
+    return 0;
+}
+void insertAcc (FILE *FAD,Acc *accD){
+    accD=(Acc*) malloc(sizeof (Acc));
+    char userName[100];
+    int n=0;
+    int id[100];
+    for (int i=0; i<SIZE; i++) {
+        printf("username:");
+        scanf("%s", userName);
+        accD->userName[i]= userName;
+        printf("ID:");
+        scanf("%d", id);
+        accD->id[i]=id;
+        fprintf(FAD, "%s %d%c",accD->userName[i],*accD->id[i],'\n');
+    }
+    FAD=fopen("acc.txt","r");
+    fscanf(FAD, "%s %d",accD->userName[SIZE-1],accD->id[SIZE-1]);
+    for (int i =0 ; i<SIZE ;i++){
+        printf("Username:%s",accD->userName[i]);
+        printf("ID:%d",*accD->id[i]);
+    }
+    fclose(FAD);
+}
+void findAcc(FILE *FAD,Acc *AccData){
+    FAD= fopen("acc.txt","r");
+    fscanf(FAD, "%s %d",AccData->userName[SIZE-1],AccData->id[SIZE-1]);
+    for (int i =0 ; i<SIZE ;i++){
+        printf("Username:%s",AccData->userName[i]);
+        printf("ID:%d",*AccData->id[i]);
+    }
+    fclose(FAD);
+}
+
+နောက်တစ်ခု 
+//
+// Created by Lenovo on 9/15/2022.
+//
+//
+// Created by Lenovo on 9/15/2022.
+//
+#include <stdio.h>
+#include <stdlib.h>
+
+void insert(FILE *account,int *number);
+void find(FILE *account,int *number);
+struct Account{
+    char user_name[100];
+    int id[100];
+    int password[100];
+    int age[100];
+    int amount[100];
+};
+int main(){
+    int aNum=0;
+    printf("Please enter the number of account you want to creat(we allow 1 to 10):");
+    scanf("%d",&aNum);
+    FILE *fProject;
+    fProject=fopen("account creating.txt","a");
+    printf("Choose option: To insert press 1:\nTo find press 2:\nTo edit press 3:");
+    int number=0;
+    scanf("%d",&number);
+    if (number == 1){
+        insert(fProject,&aNum);
+    }
+    if (number ==2){
+        find(fProject,&aNum);
+    }
+    fclose(fProject);
+    return 0;
+}
+void insert(FILE *account,int *number){
+    struct Account name[*number];
+    for (int i = 0; i < *number; i++) {
+        printf("Enter Username(%d):", i + 1);
+        scanf("%s",name[i].user_name);
+        printf("Enter ID(%d):", i + 1);
+        scanf("%d",name[i].id);
+        printf("Enter password(%d)", i + 1);
+        scanf("%d",name[i].password);
+        printf("Enter amount(%d)", i + 1);
+        scanf("%d",name[i].amount);
+        printf("Enter age(%d)", i + 1);
+        scanf("%d",name[i].age);
+        fprintf(account, "%s %d %d %d %d%c",
+                name[i].user_name,*name[i].id, *name[i].password, *name[i].amount,*name[i].age,'\n');
+    }
+}
+void find(FILE *account,int *number){
+    struct Account name[*number];
+    char line[20];
+    if(account== NULL){
+        printf("File does not exist!");
+        exit(1);
+    }else {
+        printf("Enter username to find account:");
+        scanf("%s", line);
+        puts(line);
+        for (int i=0; i<*number;i++){
+            printf("%s",name[*number].user_name);
+            if (name[*number].user_name == line){
+                printf("we found:");
+            }else{
+                printf("File does not exist!");
+                exit(1);
+            }
+        }
+    }
+}
